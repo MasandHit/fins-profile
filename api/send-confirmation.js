@@ -1,25 +1,66 @@
+// Simple in-memory rate limiter (per serverless instance)
+const ipAttempts = new Map();
+
+function isRateLimited(ip) {
+  const now = Date.now();
+  const windowMs = 60 * 60 * 1000; // 1 hour
+  const maxAttempts = 5;
+
+  const attempts = (ipAttempts.get(ip) || []).filter(t => now - t < windowMs);
+  ipAttempts.set(ip, attempts);
+
+  if (attempts.length >= maxAttempts) return true;
+
+  attempts.push(now);
+  ipAttempts.set(ip, attempts);
+  return false;
+}
+
 export default async function handler(req, res) {
+  // Security headers
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+
   // Only allow POST
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // Basic origin check — update with your actual Vercel URL after deploy
+  // Origin check
   const allowedOrigins = [
     'http://localhost:5173',
-    'https://fins-profile.vercel.app/', // update this after deploy
+    'https://fins-profile.vercel.app',
   ];
   const origin = req.headers.origin;
   if (!allowedOrigins.includes(origin)) {
     return res.status(403).json({ error: 'Forbidden' });
   }
 
-  const { email } = req.body;
+  // IP-based rate limiting
+  const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim()
+    || req.headers['x-real-ip']
+    || req.socket?.remoteAddress
+    || 'unknown';
 
-  // Validate email server-side too
-  if (!email || typeof email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 200) {
-    return res.status(400).json({ error: 'Invalid email' });
+  if (isRateLimited(ip)) {
+    return res.status(429).json({ error: 'Too many requests. Please try again later.' });
   }
+
+  // Validate email
+  const { email } = req.body;
+  if (
+    !email ||
+    typeof email !== 'string' ||
+    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
+    email.length < 5 ||
+    email.length > 200
+  ) {
+    return res.status(400).json({ error: 'Invalid email address.' });
+  }
+
+  // Sanitize
+  const cleanEmail = email.trim().toLowerCase();
 
   try {
     const response = await fetch('https://api.resend.com/emails', {
@@ -30,7 +71,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         from: `${process.env.SENDER_NAME} <${process.env.SENDER_EMAIL}>`,
-        to: [email],
+        to: [cleanEmail],
         subject: "You're on the FinSight Copilot waitlist!",
         html: `
           <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; background: #0f1117; color: #ffffff; padding: 40px; border-radius: 16px;">
@@ -58,12 +99,12 @@ export default async function handler(req, res) {
     if (!response.ok) {
       const err = await response.json();
       console.error('Resend error:', err);
-      return res.status(500).json({ error: 'Email failed to send' });
+      return res.status(500).json({ error: 'Email failed to send.' });
     }
 
     return res.status(200).json({ success: true });
   } catch (err) {
     console.error('Server error:', err);
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({ error: 'Internal server error.' });
   }
 }
