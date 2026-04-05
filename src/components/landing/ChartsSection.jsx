@@ -64,16 +64,33 @@ const CustomTooltip = ({ active, payload, label }) => {
   );
 };
 
-const AnimatedBar = ({ x, y, width, height, fill }) => {
+const AnimatedBar = ({ x, y, width, height, fill, payload, hoveredMonth }) => {
+  const isHovered = payload?.month === hoveredMonth;
+
+  // Bigger, smoother premium zoom
+  const scaleY = isHovered ? 1.16 : 1;
+  const scaleX = isHovered ? 1.2 : 1;
+
+  const newHeight = height * scaleY;
+  const newY = y - (newHeight - height);
+  const newWidth = width * scaleX;
+  const newX = x - (newWidth - width) / 2;
+
   return (
     <rect
-      x={x}
-      y={y}
-      width={width}
-      height={height}
+      x={newX}
+      y={newY}
+      width={newWidth}
+      height={newHeight}
       fill={fill}
       rx={5}
       ry={5}
+      style={{
+        transition: 'all 0.58s cubic-bezier(0.22, 1, 0.36, 1)',
+        filter: isHovered
+          ? 'brightness(1.18) saturate(1.08) drop-shadow(0 0 8px rgba(59,130,246,0.18))'
+          : 'brightness(1)',
+      }}
     />
   );
 };
@@ -81,12 +98,36 @@ const AnimatedBar = ({ x, y, width, height, fill }) => {
 
 
 function GroupedBarChart({ data }) {
+  const [hoveredMonth, setHoveredMonth] = useState(null);
+
+  const maxValue = Math.max(...data.flatMap((item) => [item.income, item.expenses]));
+  const chartMax = Math.ceil(maxValue * 1.08 / 1000) * 1000; // small natural headroom
+
+  // More natural tick density
+  const ticks = [];
+  for (let i = 0; i <= chartMax; i += 2000) {
+    ticks.push(i);
+  }
+
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <BarChart data={data} barGap={4} barCategoryGap="15%">
+      <BarChart
+        data={data}
+        barGap={4}
+        barCategoryGap="15%"
+        margin={{ top: 22, right: 8, left: 0, bottom: 0 }}
+        onMouseMove={(state) => {
+          if (state?.activeLabel) {
+            setHoveredMonth(state.activeLabel);
+          }
+        }}
+        onMouseLeave={() => setHoveredMonth(null)}
+      >
         <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} vertical={false} />
         <XAxis dataKey="month" tick={axisTickStyle} axisLine={false} tickLine={false} />
         <YAxis
+          domain={[0, chartMax]}
+          ticks={ticks}
           tick={axisTickStyle}
           axisLine={false}
           tickLine={false}
@@ -107,7 +148,7 @@ function GroupedBarChart({ data }) {
           animationBegin={0}
           animationDuration={800}
           animationEasing="ease-out"
-          shape={(props) => <AnimatedBar {...props} />}
+          shape={(props) => <AnimatedBar {...props} hoveredMonth={hoveredMonth} />}
         />
 
         <Bar
@@ -119,7 +160,7 @@ function GroupedBarChart({ data }) {
           animationBegin={100}
           animationDuration={800}
           animationEasing="ease-out"
-          shape={(props) => <AnimatedBar {...props} />}
+          shape={(props) => <AnimatedBar {...props} hoveredMonth={hoveredMonth} />}
         />
       </BarChart>
     </ResponsiveContainer>
