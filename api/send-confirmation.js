@@ -12,13 +12,12 @@ function isRateLimited(ip) {
   return false;
 }
 
-async function addToAudience(email) {
+async function addToAudience(emailAddress) {
   const audienceId = process.env.RESEND_AUDIENCE_ID;
   if (!audienceId) {
-    console.warn('RESEND_AUDIENCE_ID not set, skipping audience add');
+    console.warn('RESEND_AUDIENCE_ID not set');
     return;
   }
-
   const response = await fetch(`https://api.resend.com/audiences/${audienceId}/contacts`, {
     method: 'POST',
     headers: {
@@ -26,18 +25,17 @@ async function addToAudience(email) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      email,
+      email: emailAddress,
       unsubscribed: false,
     }),
   });
-
   if (!response.ok) {
     const err = await response.json();
     console.error('Resend audience error:', err);
   }
 }
 
-async function sendConfirmationEmail(email) {
+async function sendConfirmationEmail(emailAddress) {
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
@@ -45,8 +43,8 @@ async function sendConfirmationEmail(email) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: `${process.env.SENDER_NAME} <${process.env.SENDER_EMAIL}>`,
-      to: [email],
+      from: `${process.env.RESEND_SENDER_NAME} <${process.env.RESEND_SENDER_EMAIL}>`,
+      to: [emailAddress],
       subject: "You're on the FinSight Copilot waitlist!",
       html: `
         <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; background: #0f1117; color: #ffffff; padding: 40px; border-radius: 16px;">
@@ -66,7 +64,7 @@ async function sendConfirmationEmail(email) {
             </ul>
           </div>
           <p style="color: #94a3b8; font-size: 13px; margin-bottom: 8px;">
-            You can unsubscribe at any time by replying to this email with "unsubscribe" in the subject.
+            You can unsubscribe at any time by replying with "unsubscribe" in the subject.
           </p>
           <p style="color: #64748b; font-size: 12px;">© 2026 FinSight Copilot. All rights reserved.</p>
         </div>
@@ -107,7 +105,7 @@ export default async function handler(req, res) {
     return res.status(429).json({ error: 'Too many requests. Please try again later.' });
   }
 
-  const { email, website } = req.body;
+  const { email: emailAddress, website } = req.body;
 
   // Honeypot
   if (website) {
@@ -115,24 +113,22 @@ export default async function handler(req, res) {
   }
 
   if (
-    !email ||
-    typeof email !== 'string' ||
-    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
-    email.length < 5 ||
-    email.length > 200
+    !emailAddress ||
+    typeof emailAddress !== 'string' ||
+    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailAddress) ||
+    emailAddress.length < 5 ||
+    emailAddress.length > 200
   ) {
     return res.status(400).json({ error: 'Invalid email address.' });
   }
 
-  const cleanEmail = email.trim().toLowerCase();
+  const cleanEmail = emailAddress.trim().toLowerCase();
 
   try {
-    // Run both in parallel — faster and non-blocking
     await Promise.all([
       sendConfirmationEmail(cleanEmail),
       addToAudience(cleanEmail),
     ]);
-
     return res.status(200).json({ success: true });
   } catch (err) {
     console.error('Server error:', err);
