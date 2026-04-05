@@ -20,20 +20,23 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length < 200;
 }
 
-async function sendConfirmationEmail(email) {
+async function sendConfirmationEmail(email, honeypot) {
   try {
     await fetch('/api/send-confirmation', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email, website: honeypot }),
     });
   } catch (err) {
     console.error('Confirmation email failed:', err);
-    // Non-blocking — don't throw
   }
 }
 
-export async function joinWaitlist(email, planInterest = 'pro') {
+
+export async function joinWaitlist(email, planInterest = 'pro', honeypot = '') {
+  // Honeypot — silent fail so bots don't know they were blocked
+  if (honeypot) return;
+
   const cleanEmail = email.trim().toLowerCase();
 
   if (!isValidEmail(cleanEmail)) {
@@ -53,5 +56,5 @@ export async function joinWaitlist(email, planInterest = 'pro') {
     user_agent: navigator.userAgent.substring(0, 200),
   });
 
-  sendConfirmationEmail(cleanEmail);
+  sendConfirmationEmail(cleanEmail, honeypot);
 }

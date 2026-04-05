@@ -48,7 +48,7 @@ export default async function handler(req, res) {
   }
 
   // Validate email
-  const { email } = req.body;
+  const { email, website } = req.body;
   if (
     !email ||
     typeof email !== 'string' ||
@@ -58,6 +58,13 @@ export default async function handler(req, res) {
   ) {
     return res.status(400).json({ error: 'Invalid email address.' });
   }
+
+  // Honeypot check
+const { email, website } = req.body;
+if (website) {
+  // Silent fail — don't tell bots they were blocked
+  return res.status(200).json({ success: true });
+}
 
   // Sanitize
   const cleanEmail = email.trim().toLowerCase();

@@ -10,14 +10,16 @@ export default function WaitlistSection() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [honeypot, setHoneypot] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email) return;
+    if (honeypot) return; // silent bot block
     setError('');
     setLoading(true);
     try {
-      await joinWaitlist(email, 'pro');
+      await joinWaitlist(email, 'pro', honeypot);
       setSubmitted(true);
     } catch (err) {
       setError(err.message || 'Something went wrong. Please try again.');
@@ -75,6 +77,25 @@ export default function WaitlistSection() {
           ) : (
             <div className="flex flex-col items-center gap-3">
               <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md w-full mx-auto">
+                {/* Honeypot — hidden from humans, bots fill it */}
+                <input
+                  type="text"
+                  name="website"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  style={{
+                    position: 'absolute',
+                    left: '-9999px',
+                    top: '-9999px',
+                    opacity: 0,
+                    height: 0,
+                    width: 0,
+                    zIndex: -1,
+                  }}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                />
                 <Input
                   type="email"
                   placeholder="Enter your email"
