@@ -28,7 +28,7 @@ const plans = [
     description: "Unlock AI superpowers for your financial life.",
     features: [
       { text: "Everything in Basic", included: true },
-      { text: "AI Copilot (ChatGPT for Finance)", included: true },
+      { text: "AI Copilot", included: true },
       { text: "Personalized AI Insights", included: true },
       { text: "Smart Financial Reports", included: true },
       { text: "Savings Recommendations", included: true },

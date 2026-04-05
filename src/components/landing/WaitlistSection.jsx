@@ -3,25 +3,31 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowRight, CheckCircle2, Loader2, Sparkles } from "lucide-react";
-import { base44 } from '@/api/base44Client';
+import { joinWaitlist } from '@/api/waitlist';
 
 export default function WaitlistSection() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email) return;
+    setError('');
     setLoading(true);
-    await base44.entities.WaitlistSignup.create({ email, plan_interest: 'pro' });
-    setLoading(false);
-    setSubmitted(true);
+    try {
+      await joinWaitlist(email, 'pro');
+      setSubmitted(true);
+    } catch (err) {
+      setError(err.message || 'Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <section id="waitlist" className="relative py-32 px-6">
-      {/* Background effects */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-cyan-400/5 rounded-full blur-3xl" />
@@ -43,7 +49,9 @@ export default function WaitlistSection() {
           <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
             Be the first to try
             <br />
-            <span className="bg-gradient-to-r from-primary to-cyan-400 bg-clip-text text-transparent">FinSight Copilot</span>
+            <span className="bg-gradient-to-r from-primary to-cyan-400 bg-clip-text text-transparent">
+              FinSight Copilot
+            </span>
           </h2>
 
           <p className="text-muted-foreground text-lg mb-10 max-w-lg mx-auto">
@@ -65,30 +73,38 @@ export default function WaitlistSection() {
               </p>
             </motion.div>
           ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="flex-1 h-12 rounded-full bg-secondary border-border/50 px-5 text-foreground placeholder:text-muted-foreground"
-              />
-              <Button
-                type="submit"
-                disabled={loading}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full h-12 px-6 font-semibold gap-2"
-              >
-                {loading ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <>
-                    Join Waitlist
-                    <ArrowRight className="w-4 h-4" />
-                  </>
-                )}
-              </Button>
-            </form>
+            <div className="flex flex-col items-center gap-3">
+              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md w-full mx-auto">
+                <Input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setError('');
+                  }}
+                  required
+                  className="flex-1 h-12 rounded-full bg-secondary border-border/50 px-5 text-foreground placeholder:text-muted-foreground"
+                />
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full h-12 px-6 font-semibold gap-2"
+                >
+                  {loading ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <>
+                      Join Waitlist
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
+                </Button>
+              </form>
+              {error && (
+                <p className="text-red-400 text-sm mt-1">{error}</p>
+              )}
+            </div>
           )}
         </motion.div>
       </div>

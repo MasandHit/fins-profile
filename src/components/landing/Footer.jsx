@@ -1,5 +1,6 @@
 import React from 'react';
 import { TrendingUp } from "lucide-react";
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
@@ -11,6 +12,22 @@ export default function Footer() {
           </div>
           <span className="text-lg font-bold text-foreground">FinSight Copilot</span>
         </div>
+
+        <div className="flex items-center gap-6">
+          <Link
+            to="/privacy"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Privacy Policy
+          </Link>
+          <Link
+            to="/terms"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Terms & Conditions
+          </Link>
+        </div>
+
         <p className="text-sm text-muted-foreground">
           © {new Date().getFullYear()} FinSight Copilot. All rights reserved.
         </p>
