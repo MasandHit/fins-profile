@@ -197,6 +197,9 @@ function SpendingPieChart() {
         startAngle={startAngle}
         endAngle={endAngle}
         fill={fill}
+        strokeWidth={0}
+        stroke="none"
+        style={{ outline: 'none', cursor: 'default' }}
       />
     );
   };
@@ -217,12 +220,27 @@ function SpendingPieChart() {
           animationDuration={1200}
           animationEasing="ease-out"
           activeShape={renderCustomShape}
+          activeIndex={null}
+          onMouseEnter={() => {}}
+          onMouseLeave={() => {}}
+          onClick={() => {}}
+          strokeWidth={0}
+          stroke="none"
         >
           {spendingData.map((entry) => (
-            <Cell key={entry.name} fill={entry.color} />
+            <Cell
+              key={entry.name}
+              fill={entry.color}
+              strokeWidth={0}
+              stroke="none"
+              style={{ outline: 'none' }}
+            />
           ))}
         </Pie>
-        <Tooltip content={<CustomTooltip />} />
+        <Tooltip
+          content={<CustomTooltip />}
+          trigger="hover"
+        />
         <Legend
           formatter={(value) => (
             <span style={{ color: 'hsl(215 20% 65%)', fontSize: 11 }}>{value}</span>
