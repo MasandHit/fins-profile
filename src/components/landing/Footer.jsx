@@ -1,5 +1,4 @@
 import React from 'react';
-import { TrendingUp } from "lucide-react";
 import { Link } from 'react-router-dom';
 
 export default function Footer() {
@@ -7,9 +6,7 @@ export default function Footer() {
     <footer className="border-t border-border/50 py-12 px-6">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
-            <TrendingUp className="w-4 h-4 text-primary" />
-          </div>
+          <img src="/logo.png" alt="FinSeek AI" className="w-8 h-8 rounded-lg" />
           <span className="text-lg font-bold text-foreground">FinSeek AI</span>
         </div>
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { TrendingUp, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
@@ -31,12 +31,10 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
-            <TrendingUp className="w-5 h-5 text-primary" />
-          </div>
-          <span className="text-xl font-bold text-foreground tracking-tight">FinSeek</span>
-          <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full">AI</span>
-        </div>
+  <img src="/logo.png" alt="FinSeek AI" className="w-10 h-10 rounded-xl" />
+  <span className="text-xl font-bold text-foreground tracking-tight">FinSeek</span>
+  <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full">AI</span>
+</div>
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-8">
