@@ -11,7 +11,7 @@ export default function PrivacyPolicy() {
             <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
               <TrendingUp className="w-4 h-4 text-primary" />
             </div>
-            <span className="text-lg font-bold text-foreground">FinSight AI</span>
+            <span className="text-lg font-bold text-foreground">FinSeek AI</span>
           </Link>
           <Link to="/" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
             <ArrowLeft className="w-4 h-4" />
@@ -29,7 +29,7 @@ export default function PrivacyPolicy() {
         <div className="space-y-10 text-muted-foreground leading-relaxed">
 
           <p>
-            FinSight AI ("we," "our," or "us") values your privacy. This Privacy Policy explains how we collect,
+            FinSeek AI ("we," "our," or "us") values your privacy. This Privacy Policy explains how we collect,
             use, and protect your information when you use our website, prototype application, and related services
             (the "Service"). By using the Service, you agree to this Privacy Policy.
           </p>
@@ -138,7 +138,7 @@ export default function PrivacyPolicy() {
 
           <section>
             <h2 className="text-xl font-semibold text-foreground mb-4">10. Business Changes</h2>
-            <p className="mb-3">FinSight AI may:</p>
+            <p className="mb-3">FinSeek AI may:</p>
             <ul className="list-disc list-inside space-y-2 ml-2 mb-4">
               <li>Transition into an LLC or Corporation</li>
               <li>Merge, acquire, or be acquired</li>
@@ -171,7 +171,7 @@ export default function PrivacyPolicy() {
 
       <footer className="border-t border-border/50 py-8 px-6 mt-16">
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} FinSight AI. All rights reserved.</p>
+          <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} FinSeek AI. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <Link to="/privacy" className="text-sm text-primary">Privacy Policy</Link>
             <Link to="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Terms & Conditions</Link>

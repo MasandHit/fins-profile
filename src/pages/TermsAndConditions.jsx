@@ -11,7 +11,7 @@ export default function TermsAndConditions() {
             <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
               <TrendingUp className="w-4 h-4 text-primary" />
             </div>
-            <span className="text-lg font-bold text-foreground">FinSight AI</span>
+            <span className="text-lg font-bold text-foreground">FinSeek AI</span>
           </Link>
           <Link to="/" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
             <ArrowLeft className="w-4 h-4" />
@@ -29,7 +29,7 @@ export default function TermsAndConditions() {
         <div className="space-y-10 text-muted-foreground leading-relaxed">
 
           <p>
-            Welcome to FinSight AI ("we," "our," or "us"). These Terms and Conditions ("Terms") govern your
+            Welcome to FinSeek AI ("we," "our," or "us"). These Terms and Conditions ("Terms") govern your
             access to and use of our website, prototype application, and related services (collectively, the "Service").
             By accessing or using our Service, you agree to these Terms. If you do not agree, please do not use the Service.
           </p>
@@ -37,7 +37,7 @@ export default function TermsAndConditions() {
           <section>
             <h2 className="text-xl font-semibold text-foreground mb-4">1. Nature of Service</h2>
             <p className="mb-3">
-              FinSight AI is an experimental, AI-powered financial insights platform designed to help users
+              FinSeek AI is an experimental, AI-powered financial insights platform designed to help users
               better understand their financial data.
             </p>
             <div className="bg-primary/5 border border-primary/20 rounded-xl p-4">
@@ -49,7 +49,7 @@ export default function TermsAndConditions() {
 
           <section>
             <h2 className="text-xl font-semibold text-foreground mb-4">2. No Financial Advice</h2>
-            <p className="mb-3">The information provided by FinSight AI:</p>
+            <p className="mb-3">The information provided by FinSeek AI:</p>
             <ul className="list-disc list-inside space-y-2 ml-2 mb-4">
               <li>Does not constitute financial, investment, legal, or tax advice</li>
               <li>Should not be relied upon for making financial decisions</li>
@@ -74,7 +74,7 @@ export default function TermsAndConditions() {
 
           <section>
             <h2 className="text-xl font-semibold text-foreground mb-4">4. Limitation of Liability</h2>
-            <p className="mb-3">To the fullest extent permitted by U.S. law, FinSight AI and its founders, affiliates, and contributors shall not be liable for:</p>
+            <p className="mb-3">To the fullest extent permitted by U.S. law, FinSeek AI and its founders, affiliates, and contributors shall not be liable for:</p>
             <ul className="list-disc list-inside space-y-2 ml-2 mb-4">
               <li>Any financial losses</li>
               <li>Incorrect insights or recommendations</li>
@@ -116,7 +116,7 @@ export default function TermsAndConditions() {
 
           <section>
             <h2 className="text-xl font-semibold text-foreground mb-4">7. Intellectual Property</h2>
-            <p className="mb-3">All content, branding, and technology related to FinSight AI are owned by the founders unless otherwise stated. You may not:</p>
+            <p className="mb-3">All content, branding, and technology related to FinSeek AI are owned by the founders unless otherwise stated. You may not:</p>
             <ul className="list-disc list-inside space-y-2 ml-2">
               <li>Copy, reproduce, or distribute the platform</li>
               <li>Reverse engineer or exploit the system</li>
@@ -126,7 +126,7 @@ export default function TermsAndConditions() {
 
           <section>
             <h2 className="text-xl font-semibold text-foreground mb-4">8. Future Changes to Business Structure</h2>
-            <p className="mb-3">FinSight AI is currently in a pre-incorporation stage and may:</p>
+            <p className="mb-3">FinSeek AI is currently in a pre-incorporation stage and may:</p>
             <ul className="list-disc list-inside space-y-2 ml-2 mb-4">
               <li>Transition into a Limited Liability Company (LLC) or Corporation (C-Corp)</li>
               <li>Update legal ownership and structure</li>
@@ -161,7 +161,7 @@ export default function TermsAndConditions() {
             <ul className="list-disc list-inside space-y-2 ml-2">
               <li>You understand this is an experimental AI system</li>
               <li>You assume full responsibility for your financial decisions</li>
-              <li>You agree not to hold FinSight AI or its founders liable for any outcomes</li>
+              <li>You agree not to hold FinSeek AI or its founders liable for any outcomes</li>
             </ul>
           </section>
 
@@ -174,7 +174,7 @@ export default function TermsAndConditions() {
 
       <footer className="border-t border-border/50 py-8 px-6 mt-16">
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} FinSight AI. All rights reserved.</p>
+          <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} FinSeek AI. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <Link to="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Privacy Policy</Link>
             <Link to="/terms" className="text-sm text-primary">Terms & Conditions</Link>

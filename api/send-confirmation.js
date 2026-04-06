@@ -45,15 +45,15 @@ async function sendConfirmationEmail(emailAddress) {
     body: JSON.stringify({
       from: `${process.env.RESEND_SENDER_NAME} <${process.env.RESEND_SENDER_EMAIL}>`,
       to: [emailAddress],
-      subject: "You're on the FinSight Copilot waitlist!",
+      subject: "You're on the FinSeek AI waitlist!",
       html: `
         <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; background: #0f1117; color: #ffffff; padding: 40px; border-radius: 16px;">
           <div style="margin-bottom: 24px;">
-            <span style="font-size: 24px; font-weight: 800; color: #ffffff;">Fin</span><span style="font-size: 24px; font-weight: 800; color: #3b82f6;">Sight</span>
+            <span style="font-size: 24px; font-weight: 800; color: #ffffff;">Fin</span><span style="font-size: 24px; font-weight: 800; color: #3b82f6;">Seek AI</span>
           </div>
           <h1 style="font-size: 22px; font-weight: 700; margin-bottom: 12px;">You're on the list! 🎉</h1>
           <p style="color: #94a3b8; line-height: 1.6; margin-bottom: 24px;">
-            Thanks for joining the FinSight Copilot early access waitlist. You'll be among the first to know when we launch.
+            Thanks for joining the FinSeek AI early access waitlist. You'll be among the first to know when we launch.
           </p>
           <div style="background: #1e2433; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
             <p style="color: #94a3b8; font-size: 14px; margin: 0;">Early members get:</p>
@@ -66,7 +66,7 @@ async function sendConfirmationEmail(emailAddress) {
           <p style="color: #94a3b8; font-size: 13px; margin-bottom: 8px;">
             You can unsubscribe at any time by replying with "unsubscribe" in the subject.
           </p>
-          <p style="color: #64748b; font-size: 12px;">© 2026 FinSight Copilot. All rights reserved.</p>
+          <p style="color: #64748b; font-size: 12px;">© 2026 FinSeek AI. All rights reserved.</p>
         </div>
       `,
     }),

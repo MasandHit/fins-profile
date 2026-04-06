@@ -52,7 +52,7 @@ export default function WaitlistSection() {
             Be the first to try
             <br />
             <span className="bg-gradient-to-r from-primary to-cyan-400 bg-clip-text text-transparent">
-              FinSight Copilot
+              FinSeek AI
             </span>
           </h2>
 
@@ -71,7 +71,7 @@ export default function WaitlistSection() {
               </div>
               <h3 className="text-xl font-bold text-foreground">You're on the list!</h3>
               <p className="text-muted-foreground text-sm">
-                We'll email you as soon as FinSight Copilot is ready for early testing.
+                We'll email you as soon as FinSeek AI is ready for early testing.
               </p>
             </motion.div>
           ) : (

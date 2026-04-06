@@ -10,7 +10,7 @@ export default function Footer() {
           <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
             <TrendingUp className="w-4 h-4 text-primary" />
           </div>
-          <span className="text-lg font-bold text-foreground">FinSight Copilot</span>
+          <span className="text-lg font-bold text-foreground">FinSeek AI</span>
         </div>
 
         <div className="flex items-center gap-6">
@@ -29,7 +29,7 @@ export default function Footer() {
         </div>
 
         <p className="text-sm text-muted-foreground">
-          © {new Date().getFullYear()} FinSight Copilot. All rights reserved.
+          © {new Date().getFullYear()} FinSeek AI. All rights reserved.
         </p>
       </div>
     </footer>
