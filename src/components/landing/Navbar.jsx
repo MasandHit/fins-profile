@@ -14,9 +14,11 @@ export default function Navbar() {
   }, []);
 
   const scrollTo = (id) => {
+  setMobileOpen(false);
+  setTimeout(() => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-    setMobileOpen(false);
-  };
+  }, 300);
+};
 
   return (
     <motion.nav
