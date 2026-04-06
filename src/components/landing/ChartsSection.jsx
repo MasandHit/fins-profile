@@ -1,19 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-  Legend,
-  AreaChart,
-  Area,
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+  PieChart, Pie, Cell, Legend, AreaChart, Area, Sector,
 } from 'recharts';
 
 const monthlyData = [
@@ -197,6 +186,21 @@ function GroupedBarChart({ data, animateBars = false, animationSeed = 0 }) {
 }
 
 function SpendingPieChart() {
+  const renderCustomShape = (props) => {
+    const { cx, cy, innerRadius, outerRadius, startAngle, endAngle, fill } = props;
+    return (
+      <Sector
+        cx={cx}
+        cy={cy}
+        innerRadius={innerRadius}
+        outerRadius={outerRadius}
+        startAngle={startAngle}
+        endAngle={endAngle}
+        fill={fill}
+      />
+    );
+  };
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <PieChart>
@@ -212,6 +216,7 @@ function SpendingPieChart() {
           animationBegin={0}
           animationDuration={1200}
           animationEasing="ease-out"
+          activeShape={renderCustomShape}
         >
           {spendingData.map((entry) => (
             <Cell key={entry.name} fill={entry.color} />
@@ -229,6 +234,8 @@ function SpendingPieChart() {
     </ResponsiveContainer>
   );
 }
+
+
 
 function BalanceAreaChart({ gradientId = 'balanceGrad' }) {
   return (
