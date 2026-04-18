@@ -29,7 +29,7 @@ export default function Footer() {
           </a>
         </div>
 
-        <p className="text-sm text-white/60">© {new Date().getFullYear()} FinSeek AI. All rights reserved.</p>
+        <p className="text-sm text-white/80">© {new Date().getFullYear()} FinSeek AI. All rights reserved.</p>
 
       </div>
     </footer>
