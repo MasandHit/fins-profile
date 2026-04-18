@@ -33,7 +33,7 @@ const plans = [
       { text: "Smart Financial Reports", included: true },
       { text: "Savings Recommendations", included: true },
       { text: "Spending Pattern Detection", included: true },
-      { text: "Priority Support", included: true },
+      { text: "Bank Integration", included: true },
     ],
     cta: "Join Waitlist — Pro",
     highlighted: true

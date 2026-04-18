@@ -37,7 +37,7 @@ const features = [
   {
     icon: MessageSquare,
     title: "AI Copilot",
-    description: "Chat with your finances like ChatGPT. Ask questions about your spending, get advice, and plan your budget with AI.",
+    description: "Your personal AI financial advisor. Ask questions about your spending, uncover patterns, and get smart budget recommendations — all in plain conversation.",
     included: "pro"
   },
   {
