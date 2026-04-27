@@ -32,9 +32,7 @@ export default function NavSection({ goToSection }) {
             >
               Pricing
             </button>
-            <button onClick={() => goToSection(3)} className="text-xl grad-text opacity-100 hover:opacity-100 transition-opacity">
-              Features
-            </button>
+            
             <button
               onClick={() => goToSection(6)}
               className="text-md font-medium text-white px-4 py-2 rounded-full"
