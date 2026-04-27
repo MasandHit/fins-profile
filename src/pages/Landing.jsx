@@ -17,8 +17,8 @@ export default function Landing() {
   const { containerRef, currentSection, goToSection } = useScrollSnap(SECTIONS);
 
   const sectionStyle = {
-    padding: `${NAV_HEIGHT + GAP}px ${GAP}px ${GAP}px ${GAP}px`,
-    boxSizing: 'border-box',
+    padding: `${NAV_HEIGHT + Math.round(window.innerHeight * 0.03)}px ${Math.round(window.innerWidth * 0.03)}px ${Math.round(window.innerHeight * 0.03)}px ${Math.round(window.innerWidth * 0.03)}px`,
+  boxSizing: 'border-box',
   };
 
   return (
