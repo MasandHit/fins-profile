@@ -88,8 +88,9 @@ export default async function handler(req, res) {
   }
 
   const allowedOrigins = [
+    'https://finseekai.com',
+    'https://www.finseekai.com',
     'http://localhost:5173',
-    'https://fins-profile.vercel.app',
   ];
   const origin = req.headers.origin;
   if (!allowedOrigins.includes(origin)) {
