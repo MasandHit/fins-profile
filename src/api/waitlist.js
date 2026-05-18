@@ -1,5 +1,5 @@
 import { db } from '@/lib/firebase';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
 
 const submitAttempts = new Map();
 
@@ -20,22 +20,21 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length < 200;
 }
 
+async function checkAlreadyRegistered(email) {
+  const q = query(collection(db, 'waitlist'), where('email', '==', email));
+  const snapshot = await getDocs(q);
+  return !snapshot.empty;
+}
+
 async function sendConfirmationEmail(email, honeypot) {
   try {
-    const response = await fetch('/api/send-confirmation', {
+    await fetch('/api/send-confirmation', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, website: honeypot }),
     });
-    const data = await response.json();
-    if (response.status === 409) {
-      throw new Error('This email is already on the waitlist!');
-    }
-    if (!response.ok) {
-      throw new Error(data.error || 'Something went wrong.');
-    }
   } catch (err) {
-    throw err;
+    console.error('Confirmation email failed:', err);
   }
 }
 
@@ -54,14 +53,21 @@ export async function joinWaitlist(email, planInterest = 'pro', honeypot = '') {
 
   trackAttempt(cleanEmail);
 
-  // Save to Firestore — exactly 4 fields to match rules
+  // Check if already registered
+  const alreadyRegistered = await checkAlreadyRegistered(cleanEmail);
+  if (alreadyRegistered) {
+    throw new Error('This email is already on the waitlist!');
+  }
+
+  // Save to Firestore
   await addDoc(collection(db, 'waitlist'), {
     email: cleanEmail,
     plan_interest: planInterest,
     joined_at: new Date().toISOString(),
     user_agent: navigator.userAgent.substring(0, 200),
+    email_sent: false,
   });
 
-  // Duplicate check and email handled server-side
-  await sendConfirmationEmail(cleanEmail, honeypot);
+  // Send confirmation — non blocking
+  sendConfirmationEmail(cleanEmail, honeypot);
 }
