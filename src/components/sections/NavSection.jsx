@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 export default function NavSection({ goToSection }) {
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 px-3 sm:px-6 pt-3 sm:pt-4">
+    <div className="relative sm:absolute top-0 left-0 right-0 z-50 px-3 sm:px-6 pt-3 sm:pt-4">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}

@@ -166,6 +166,20 @@
   height: auto !important;
 }
 
+/* ── Mobile: sections and glass cards size to content ── */
+@media (max-width: 639px) {
+  .glass-card {
+    height: auto !important;
+    min-height: unset !important;
+    width: 100% !important;
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+  }
+  div:has(> .glass-card) {
+    height: auto !important;
+  }
+}
+
 /* ── Portrait mobile fluid type ──────────────────── */
 @media (max-width: 767px) and (orientation: portrait) {
   :root {
