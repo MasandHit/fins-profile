@@ -1,5 +1,5 @@
 import { db } from '@/lib/firebase';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
 
 const submitAttempts = new Map();
 
@@ -20,6 +20,12 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length < 200;
 }
 
+async function checkAlreadyRegistered(email) {
+  const q = query(collection(db, 'waitlist'), where('email', '==', email));
+  const snapshot = await getDocs(q);
+  return !snapshot.empty;
+}
+
 async function sendConfirmationEmail(email, honeypot) {
   try {
     await fetch('/api/send-confirmation', {
@@ -32,9 +38,7 @@ async function sendConfirmationEmail(email, honeypot) {
   }
 }
 
-
 export async function joinWaitlist(email, planInterest = 'pro', honeypot = '') {
-  // Honeypot — silent fail so bots don't know they were blocked
   if (honeypot) return;
 
   const cleanEmail = email.trim().toLowerCase();
@@ -49,12 +53,21 @@ export async function joinWaitlist(email, planInterest = 'pro', honeypot = '') {
 
   trackAttempt(cleanEmail);
 
+  // Check if already registered
+  const alreadyRegistered = await checkAlreadyRegistered(cleanEmail);
+  if (alreadyRegistered) {
+    throw new Error('This email is already on the waitlist!');
+  }
+
+  // Save to Firestore
   await addDoc(collection(db, 'waitlist'), {
     email: cleanEmail,
     plan_interest: planInterest,
     joined_at: new Date().toISOString(),
     user_agent: navigator.userAgent.substring(0, 200),
+    email_sent: false,
   });
 
+  // Send confirmation — non blocking
   sendConfirmationEmail(cleanEmail, honeypot);
 }
