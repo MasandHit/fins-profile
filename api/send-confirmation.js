@@ -72,7 +72,7 @@ async function sendConfirmationEmail(emailAddress) {
     body: JSON.stringify({
       from: `${process.env.RESEND_SENDER_NAME} <${process.env.RESEND_SENDER_EMAIL}>`,
       to: [emailAddress],
-      subject: "You're on the FinSeek AI waitlist! 🎉",
+      subject: "FinSeek AI - Early Access Confirmation",
       headers: {
         'List-Unsubscribe': `<${unsubscribeUrl}>`,
         'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
