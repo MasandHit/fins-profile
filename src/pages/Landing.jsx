@@ -46,21 +46,26 @@ export default function Landing() {
 
   /* ── Mobile: normal scroll, no snap ─────────── */
   if (isMobile) {
+    const mobileGoToSection = (index) => {
+      const el = document.getElementById(`mobile-section-${index}`);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    };
+
     return (
       <div style={{ background: '#08090D', minHeight: '100vh', width: '100%' }}>
-        {/* Nav — not sticky, just sits at top */}
+        {/* Nav */}
         <div style={{ padding: '12px 12px 0' }}>
-          <NavSection goToSection={goToSection} />
+          <NavSection goToSection={mobileGoToSection} />
         </div>
 
         {/* Gap between nav and first section, bottom breathing room */}
-        <div style={{ padding: '0 12px', marginTop: '16px', paddingBottom: '48px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          <HeroSection goToSection={goToSection} />
-          <CopilotSection />
-          <ChartsSection />
-          <FeaturesSection />
-          <PricingSection goToSection={goToSection} />
-          <WaitlistSection />
+        <div style={{ padding: '0 16px', marginTop: '16px', paddingBottom: '80px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <div id="mobile-section-0"><HeroSection goToSection={mobileGoToSection} /></div>
+          <div id="mobile-section-1"><CopilotSection /></div>
+          <div id="mobile-section-2"><ChartsSection /></div>
+          <div id="mobile-section-3"><FeaturesSection /></div>
+          <div id="mobile-section-4"><PricingSection goToSection={mobileGoToSection} /></div>
+          <div id="mobile-section-5"><WaitlistSection /></div>
           <FooterSection />
         </div>
       </div>
