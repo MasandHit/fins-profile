@@ -5,12 +5,12 @@ import {
 } from 'lucide-react';
 
 const features = [
-  { icon: LayoutDashboard, title: 'Smart Dashboard', desc: 'Income, expenses, net balance at a glance.', pro: false },
-  { icon: ArrowLeftRight, title: 'Transaction Tracking', desc: 'Auto-categorize every transaction instantly.', pro: false },
-  { icon: PieChart, title: 'Spending Analysis', desc: 'Visual breakdowns of your spending patterns.', pro: false },
-  { icon: CreditCard, title: 'Subscription Manager', desc: 'Spot and cut unused subscriptions.', pro: false },
-  { icon: MessageSquare, title: 'AI Copilot', desc: 'Chat with your finances like ChatGPT.', pro: true },
-  { icon: Lightbulb, title: 'AI Insights', desc: 'Personalized savings recommendations.', pro: true },
+  { icon: LayoutDashboard, title: 'Smart Dashboard',      desc: 'Income, expenses, net balance at a glance.',     pro: false },
+  { icon: ArrowLeftRight,  title: 'Transaction Tracking', desc: 'Auto-categorize every transaction instantly.',   pro: false },
+  { icon: PieChart,        title: 'Spending Analysis',    desc: 'Visual breakdowns of your spending patterns.',   pro: false },
+  { icon: CreditCard,      title: 'Subscription Manager', desc: 'Spot and cut unused subscriptions.',             pro: false },
+  { icon: MessageSquare,   title: 'AI Copilot',           desc: 'Chat with your finances like ChatGPT.',          pro: true  },
+  { icon: Lightbulb,       title: 'AI Insights',          desc: 'Personalized savings recommendations.',          pro: true  },
 ];
 
 export default function FeaturesSection() {
@@ -21,29 +21,28 @@ export default function FeaturesSection() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="glass-card w-full h-full flex flex-col px-8 py-6" style={{ border: '0.5px solid rgba(255, 105, 180, 1.0)' }}>
+        className="glass-card w-full h-full flex flex-col px-4 sm:px-8 py-4 sm:py-6"
+        style={{
+          border: '1px solid rgba(255,105,180,1)',
+          boxShadow: '0 0 24px rgba(255,105,180,0.3), 0 8px 48px rgba(0,0,0,0.45)',
+        }}
+      >
         {/* Header */}
-        <div
-          className="text-center pb-5 mb-5"
-          style={{ borderBottom: '0.5px solid rgba(255,255,255,0.08)' }}
-        >
-          <div
-            className="inline-block text-sm font-semibold tracking-widest uppercase mb-2"
-            style={{ color: '#60CFFF' }}
-          >
+        <div className="text-center pb-4 sm:pb-5 mb-4 sm:mb-5 flex-shrink-0" style={{ borderBottom: '0.5px solid rgba(255,255,255,0.1)' }}>
+          <div className="inline-block font-semibold tracking-widest uppercase mb-2" style={{ color: '#60CFFF', fontFamily: 'Lora, serif', fontSize: 'var(--text-xs)' }}>
             ▣ Features
           </div>
-          <h2 className="text-5xl font-semibold text-white mb-2">
+          <h2 className="font-black text-white mb-2" style={{ fontFamily: 'Merriweather, serif', fontSize: 'var(--text-5xl)' }}>
             Everything to{' '}
             <span className="grad-text">master your money</span>
           </h2>
-          <p className="text-md font-medium" style={{ color: 'rgba(255,255,255,0.7)' }}>
+          <p style={{ color: 'rgba(255,255,255,0.95)', fontFamily: 'Lora, serif', fontWeight: 500, fontSize: 'var(--text-base)' }}>
             Powerful tools for complete financial control.
           </p>
         </div>
 
-        {/* Grid — flex-1 fills remaining space */}
-        <div className="grid grid-cols-3 gap-4 flex-1">
+        {/* Grid: 1 col mobile → 2 col tablet → 3 col desktop */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 flex-1 overflow-y-auto sm:overflow-visible">
           {features.map((f, i) => (
             <motion.div
               key={f.title}
@@ -51,35 +50,33 @@ export default function FeaturesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.07 }}
-              className="relative rounded-2xl p-5 flex flex-col gap-3"
+              className="relative rounded-2xl p-4 sm:p-5 flex flex-col gap-2 sm:gap-3"
               style={{
                 background: 'rgba(255,255,255,0.05)',
-                border: f.pro
-                  ? '0.5px solid rgba(96,207,255,1)'
-                  : '0.5px solid rgba(96,207,255,1)',
+                border: f.pro ? '1px solid rgba(96,207,255,0.8)' : '1px solid rgba(96,207,255,0.35)',
+                boxShadow: f.pro ? '0 0 12px rgba(96,207,255,0.15)' : 'none',
               }}
             >
               {f.pro && (
                 <span
-                  className="absolute top-3 right-3 text-[10px] font-semibold px-2 py-0.5 rounded-full"
+                  className="absolute top-3 right-3 font-semibold px-2 py-0.5 rounded-full"
                   style={{
                     color: '#60CFFF',
                     background: 'rgba(96,207,255,0.12)',
-                    border: '0.5px solid rgba(96,207,255,0.25)',
+                    border: '0.5px solid rgba(96,207,255,0.35)',
+                    fontFamily: 'Lora, serif',
+                    fontSize: 'var(--text-xs)',
                   }}
                 >
                   PRO
                 </span>
               )}
-
-              <f.icon
-                className="w-6 h-6"
-                style={{ color: f.pro ? '#60CFFF' : 'rgba(255,255,255,0.8)' }}
-              />
-
+              <f.icon className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: f.pro ? '#60CFFF' : 'rgba(255,255,255,0.9)' }} />
               <div>
-                <div className="text-base font-semibold text-white mb-1">{f.title}</div>
-                <div className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.65)' }}>
+                <div className="font-bold text-white mb-1" style={{ fontFamily: 'Merriweather, serif', fontSize: 'var(--text-base)' }}>
+                  {f.title}
+                </div>
+                <div className="leading-relaxed" style={{ color: 'rgba(255,255,255,0.85)', fontFamily: 'Lora, serif', fontWeight: 500, fontSize: 'var(--text-sm)' }}>
                   {f.desc}
                 </div>
               </div>

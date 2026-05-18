@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import Background from '@/components/layout/Background';
 import NavSection from '@/components/sections/NavSection';
 import HeroSection from '@/components/sections/HeroSection';
@@ -11,15 +12,39 @@ import useScrollSnap from '@/hooks/useScrollSnap';
 
 const SECTIONS = 6;
 const NAV_HEIGHT = 72;
-const GAP = 80;
 
 export default function Landing() {
-  const { containerRef, currentSection, goToSection } = useScrollSnap(SECTIONS);
+  // Pass window.innerHeight so the hook always knows the true section height.
+  // snap-section uses height:100vh which equals window.innerHeight,
+  // so scroll math stays perfectly in sync on every screen size.
+  const { containerRef, currentSection, goToSection } = useScrollSnap(SECTIONS, window.innerHeight);
 
-  const sectionStyle = {
-    padding: `${NAV_HEIGHT + Math.round(window.innerHeight * 0.03)}px ${Math.round(window.innerWidth * 0.03)}px ${Math.round(window.innerHeight * 0.03)}px ${Math.round(window.innerWidth * 0.03)}px`,
-  boxSizing: 'border-box',
-  };
+  const { sectionStyle, vPad } = useMemo(() => {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+
+    const hPad = Math.round(w * (
+      w < 640  ? 0.04 :
+      w < 1024 ? 0.06 :
+                 0.09
+    ));
+
+    const vPad = Math.round(h * (
+      w < 640  ? 0.02 :
+      w < 1024 ? 0.04 :
+      w < 1280 ? 0.04 :  // MacBook Air — tighter so cards don't clip
+                 0.07
+    ));
+
+    const topPad = NAV_HEIGHT + vPad;
+    return {
+      sectionStyle: {
+        padding: `${topPad}px ${hPad}px ${vPad}px ${hPad}px`,
+        boxSizing: 'border-box',
+      },
+      vPad,
+    };
+  }, []);
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
@@ -43,16 +68,17 @@ export default function Landing() {
           <PricingSection goToSection={goToSection} />
         </div>
 
-        {/* Waitlist + Footer combined */}
+        {/* Waitlist + Footer — gap matches vPad */}
         <div className="snap-section" style={sectionStyle}>
-          <div className="w-full h-full flex flex-col gap-20">
+          <div className="w-full h-full flex flex-col" style={{ gap: `${vPad}px` }}>
             <WaitlistSection />
             <FooterSection />
           </div>
         </div>
       </div>
 
-      <div className="fixed right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-2">
+      {/* Scroll dots */}
+      <div className="fixed right-3 md:right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-2">
         {Array.from({ length: SECTIONS }).map((_, i) => (
           <button
             key={i}

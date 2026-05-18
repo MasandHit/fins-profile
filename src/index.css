@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,7 +6,8 @@
 
 @layer base {
   :root {
-    --font-inter: 'Inter', sans-serif;
+    --font-merriweather: 'Merriweather', serif;
+    --font-lora: 'Lora', serif;
 
     --background: 0 0% 100%;
     --foreground: 224 71% 18%;
@@ -27,40 +28,47 @@
     --border: 221 91% 60% / 0.15;
     --input: 214 100% 97%;
     --ring: 221 91% 60%;
-    --chart-1: 217 91% 60%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
     --radius: 1.25rem;
+
+    /* Fluid type scale for portrait mobile only */
+    --text-xs:   0.75rem;
+    --text-sm:   0.875rem;
+    --text-base: 1rem;
+    --text-lg:   1.125rem;
+    --text-xl:   1.25rem;
+    --text-2xl:  1.5rem;
+    --text-3xl:  1.875rem;
+    --text-4xl:  2.25rem;
+    --text-5xl:  3rem;
+    --text-6xl:  3.75rem;
   }
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    box-sizing: border-box;
   }
 
-  html {
-    height: 100%;
-  }
+  html { height: 100%; }
 
   body {
-    @apply font-inter;
-    background: #ffffff;
+    background: #08090D;
     color: #ffffff;
     height: 100%;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Lora', serif;
   }
 
-  #root {
-    height: 100%;
+  #root { height: 100%; }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Merriweather', serif;
   }
 }
 
-/* Scroll snap container */
+/* ── Scroll snap ─────────────────────────────────── */
 .snap-container {
-  height: 100vh;
+  height: 100%;
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
@@ -68,6 +76,18 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+.snap-container::-webkit-scrollbar { display: none; }
+
+/* For the scaled desktop wrapper, snap container must be exactly the design height */
+.snap-container-fixed {
+  height: 900px;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.snap-container-fixed::-webkit-scrollbar { display: none; }
 
 .snap-section {
   scroll-snap-align: start;
@@ -75,14 +95,26 @@
   height: 100vh;
   min-height: 100vh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   position: relative;
-  padding: 0;
   box-sizing: border-box;
 }
 
-/* Glass card */
+/* For fixed-height desktop snap sections */
+.snap-section-fixed {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  height: 900px;
+  min-height: 900px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* ── Glass card ──────────────────────────────────── */
 .glass-card {
   position: relative;
   border-radius: 24px;
@@ -91,84 +123,61 @@
   border: 0.5px solid rgba(255, 255, 255, 0.09);
   backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
-  box-shadow: 0 8px 48px rgba(0, 0, 0, 0.45), 0 1px 0 rgba(255, 255, 255, 0.05) inset;
+  box-shadow: 0 8px 48px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.05) inset;
 }
 
 .glass-card::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
+  inset: 0;
   background:
-    radial-gradient(ellipse at 0% 50%, rgba(0, 0, 0, 0.55) 0%, transparent 50%),
-    radial-gradient(ellipse at 100% 50%, rgba(0, 0, 0, 0.55) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 0%, rgba(0, 0, 0, 0.3) 0%, transparent 40%),
-    radial-gradient(ellipse at 50% 100%, rgba(0, 0, 0, 0.3) 0%, transparent 40%);
+    radial-gradient(ellipse at 0% 50%,   rgba(0,0,0,0.55) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 50%, rgba(0,0,0,0.55) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 0%,   rgba(0,0,0,0.3)  0%, transparent 40%),
+    radial-gradient(ellipse at 50% 100%, rgba(0,0,0,0.3)  0%, transparent 40%);
   pointer-events: none;
   z-index: 0;
 }
+.glass-card > * { position: relative; z-index: 1; }
 
-.glass-card > * {
-  position: relative;
-  z-index: 1;
-}
-
-/* Gradient text */
+/* ── Gradient text ───────────────────────────────── */
 .grad-text {
   background: linear-gradient(90deg, #3B6EF8, #60CFFF);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  font-family: 'Merriweather', serif;
 }
 
-/* Section fade animation */
-.section-enter {
-  animation: sectionFadeIn 0.6s ease forwards;
-}
+/* ── Font helpers ────────────────────────────────── */
+.font-display { font-family: 'Merriweather', serif; }
+.font-body    { font-family: 'Lora', serif; }
 
+/* ── Section fade ────────────────────────────────── */
 @keyframes sectionFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
+.section-enter { animation: sectionFadeIn 0.6s ease forwards; }
 
-/* Scrollbar hide */
-.snap-container::-webkit-scrollbar {
-  display: none;
-}
-.snap-container {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
+/* ── Legal pages ─────────────────────────────────── */
 .legal-page {
   overflow-y: auto !important;
   height: auto !important;
 }
 
-/* Proportional scaling based on viewport WIDTH */
-@media (max-width: 1280px) {
-  .snap-section > * {
-    transform: scale(0.95);
-    transform-origin: center center;
+/* ── Portrait mobile fluid type ──────────────────── */
+@media (max-width: 767px) and (orientation: portrait) {
+  :root {
+    --text-xs:   clamp(0.65rem, 2.5vw, 0.75rem);
+    --text-sm:   clamp(0.75rem, 3vw,   0.875rem);
+    --text-base: clamp(0.85rem, 3.5vw, 1rem);
+    --text-lg:   clamp(1rem,    4vw,   1.125rem);
+    --text-xl:   clamp(1.1rem,  4.5vw, 1.25rem);
+    --text-2xl:  clamp(1.2rem,  5vw,   1.5rem);
+    --text-3xl:  clamp(1.3rem,  6vw,   1.875rem);
+    --text-4xl:  clamp(1.5rem,  7vw,   2.25rem);
+    --text-5xl:  clamp(1.8rem,  8vw,   3rem);
+    --text-6xl:  clamp(2rem,    9vw,   3.75rem);
   }
 }
-
-@media (max-width: 1100px) {
-  .snap-section > * {
-    transform: scale(0.88);
-    transform-origin: center center;
-  }
-}
-
-@media (max-width: 900px) {
-  .snap-section > * {
-    transform: scale(0.78);
-    transform-origin: center center;
-  }
-}
-
