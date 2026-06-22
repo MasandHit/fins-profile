@@ -75,7 +75,7 @@ export default function CopilotSection() {
         </div>
 
         {/* Chat messages — flex-1 + overflow-y-auto so they scroll on mobile */}
-        <div className="flex flex-col gap-3 sm:gap-4 flex-1 overflow-y-auto justify-center sm:justify-center">
+        <div className="flex flex-col gap-3 sm:gap-4 flex-1 overflow-y-auto min-h-0">
           {messages.map((msg, i) => (
             <motion.div
               key={i}

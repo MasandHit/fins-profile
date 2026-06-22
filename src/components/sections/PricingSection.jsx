@@ -40,7 +40,7 @@ export default function PricingSection({ goToSection }) {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="glass-card w-full h-full flex flex-col px-4 sm:px-8 py-4 sm:py-6"
+        className="glass-card w-full h-full flex flex-col px-4 sm:px-8 py-4 sm:py-6 min-h-0"
         style={{
           border: '1px solid rgba(250,204,21,1)',
           boxShadow: '0 0 24px rgba(250,204,21,0.3), 0 8px 48px rgba(0,0,0,0.45)',
@@ -61,7 +61,7 @@ export default function PricingSection({ goToSection }) {
         </div>
 
         {/* Plans: 1 col mobile → 2 col sm+ */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5 flex-1 overflow-y-auto sm:overflow-visible"
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5 flex-1 min-h-0 overflow-y-auto"
           style={{ gridAutoRows: 'min-content' }}
         >
           {plans.map((plan, i) => (

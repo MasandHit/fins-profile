@@ -21,7 +21,7 @@ export default function FeaturesSection() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="glass-card w-full h-full flex flex-col px-4 sm:px-8 py-4 sm:py-6"
+        className="glass-card w-full h-full flex flex-col px-4 sm:px-8 py-4 sm:py-6 min-h-0"
         style={{
           border: '1px solid rgba(255,105,180,1)',
           boxShadow: '0 0 24px rgba(255,105,180,0.3), 0 8px 48px rgba(0,0,0,0.45)',
@@ -42,7 +42,7 @@ export default function FeaturesSection() {
         </div>
 
         {/* Grid: 1 col mobile → 2 col tablet → 3 col desktop */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 flex-1 overflow-y-auto sm:overflow-visible">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 flex-1 min-h-0 overflow-y-auto">
           {features.map((f, i) => (
             <motion.div
               key={f.title}

@@ -5,6 +5,7 @@ import { joinWaitlist } from '@/api/waitlist';
 
 export default function WaitlistSection() {
   const [email, setEmail] = useState('');
+  const [plan, setPlan] = useState('pro');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -16,7 +17,7 @@ export default function WaitlistSection() {
     setError('');
     setLoading(true);
     try {
-      await joinWaitlist(email, 'pro', honeypot);
+      await joinWaitlist(email, plan, honeypot);
       setSubmitted(true);
     } catch (err) {
       setError(err.message || 'Something went wrong. Please try again.');
@@ -64,10 +65,25 @@ export default function WaitlistSection() {
               <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center" style={{ background: 'rgba(34,197,94,0.15)' }}>
                 <CheckCircle2 className="w-7 h-7 sm:w-8 sm:h-8" style={{ color: '#4ade80' }} />
               </div>
-              <h3 className="font-bold text-white" style={{ fontFamily: 'Merriweather, serif', fontSize: 'var(--text-xl)' }}>You're on the list!</h3>
+              <h3 className="font-bold text-white" style={{ fontFamily: 'Merriweather, serif', fontSize: 'var(--text-xl)' }}>
+                You're on the list!
+              </h3>
               <p style={{ color: 'rgba(255,255,255,0.9)', fontFamily: 'Lora, serif', fontWeight: 500, fontSize: 'var(--text-base)' }}>
                 We'll email you as soon as FinSeek AI is ready for early testing.
               </p>
+              <div
+                className="px-4 py-1.5 rounded-full"
+                style={{
+                  background: plan === 'pro' ? 'rgba(59,110,248,0.15)' : 'rgba(255,255,255,0.08)',
+                  border: plan === 'pro' ? '0.5px solid rgba(96,207,255,0.4)' : '0.5px solid rgba(255,255,255,0.2)',
+                  color: plan === 'pro' ? '#60CFFF' : 'rgba(255,255,255,0.7)',
+                  fontFamily: 'Lora, serif',
+                  fontSize: 'var(--text-sm)',
+                  fontWeight: 500,
+                }}
+              >
+                {plan === 'pro' ? '✦ Pro Plan selected' : '◈ Basic Plan selected'}
+              </div>
             </motion.div>
           ) : (
             <motion.div
@@ -90,6 +106,31 @@ export default function WaitlistSection() {
               >
                 <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#60CFFF' }} />
                 Limited early access
+              </div>
+
+              {/* Plan selector */}
+              <div className="flex gap-3 w-full max-w-sm">
+                {['basic', 'pro'].map((p) => (
+                  <button
+                    key={p}
+                    type="button"
+                    onClick={() => setPlan(p)}
+                    className="flex-1 py-2.5 rounded-full font-semibold transition-all"
+                    style={{
+                      fontFamily: 'Lora, serif',
+                      fontSize: 'var(--text-sm)',
+                      background: plan === p
+                        ? 'linear-gradient(135deg, #3B6EF8, #60CFFF)'
+                        : 'rgba(255,255,255,0.06)',
+                      color: plan === p ? '#fff' : 'rgba(255,255,255,0.5)',
+                      border: plan === p
+                        ? 'none'
+                        : '1px solid rgba(255,255,255,0.15)',
+                    }}
+                  >
+                    {p === 'pro' ? '✦ Pro — $7.99/mo' : '◈ Basic — Free'}
+                  </button>
+                ))}
               </div>
 
               <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 w-full max-w-sm">
