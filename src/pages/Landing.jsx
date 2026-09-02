@@ -6,7 +6,7 @@ import CopilotSection from '@/components/sections/CopilotSection';
 import ChartsSection from '@/components/sections/ChartsSection';
 import FeaturesSection from '@/components/sections/FeaturesSection';
 import PricingSection from '@/components/sections/PricingSection';
-import WaitlistSection from '@/components/sections/WaitlistSection';
+import LaunchSection from "../components/sections/LaunchSection";
 import FooterSection from '@/components/sections/FooterSection';
 import useScrollSnap from '@/hooks/useScrollSnap';
 
@@ -65,7 +65,7 @@ export default function Landing() {
           <div id="mobile-section-2"><ChartsSection /></div>
           <div id="mobile-section-3"><FeaturesSection /></div>
           <div id="mobile-section-4"><PricingSection goToSection={mobileGoToSection} /></div>
-          <div id="mobile-section-5"><WaitlistSection /></div>
+          <div id="mobile-section-5"><LaunchSection /></div>
           <FooterSection />
         </div>
       </div>
@@ -96,7 +96,7 @@ export default function Landing() {
         </div>
         <div className="snap-section" style={sectionStyle}>
           <div className="w-full h-full flex flex-col" style={{ gap: `${vPad}px` }}>
-            <WaitlistSection />
+            <LaunchSection />
             <FooterSection />
           </div>
         </div>

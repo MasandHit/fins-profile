@@ -46,17 +46,15 @@ export default function NavSection({ goToSection }) {
             >
               Pricing
             </button>
-            <button
-              onClick={() => goToSection(5)}
-              className="font-semibold text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full whitespace-nowrap"
-              style={{
-                background: 'linear-gradient(135deg, #3B6EF8, #80CFFF)',
-                fontFamily: 'Lora, serif',
-                fontSize: 'var(--text-sm)',
-              }}
+            <a
+              href="https://beta.finseekai.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-2 rounded-full bg-white text-black text-sm font-semibold hover:bg-gray-100 transition-colors"
             >
-              Join Waitlist
-            </button>
+              Try Beta
+            </a>
+            
           </div>
         </div>
       </motion.div>
